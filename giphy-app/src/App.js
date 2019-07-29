@@ -42,13 +42,28 @@ class App extends React.Component {
           gif_list: data
         })
       }})
-    .then(() => console.log(component.state.gif_list))
+    .catch(
+      alert("Your search term came up with no results!\nPlease enter a valid search term")
+    )
   }
 
   componentDidMount() {
     let url = "http://api.giphy.com/v1/gifs/trending?api_key=IfGfMPdWrC17Mkoz3U4C9ux0iCNmlacu"
     
-    this.fetchData(url)
+    let component = this
+
+    fetch(url)
+    .then(response => response.json())
+    .then(json => json.data)
+    .then(data => {
+      console.log(data)
+      component.setState({
+        gif_list: data
+      })
+    })
+    .catch(err => {
+      alert("Sorry, our site is not working at the moment :(")
+    })
   }
 
   searchGifs(search) {
